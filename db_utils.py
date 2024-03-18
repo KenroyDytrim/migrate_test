@@ -16,7 +16,7 @@ from yarl import URL
 
 from alembic.config import Config as AlembicConfig
 
-
+# Получаем конфигурацию alembic
 def make_alembic_config(
     cmd_opts: Namespace
 ) -> AlembicConfig:
@@ -37,7 +37,7 @@ def make_alembic_config(
         config.set_main_option("sqlalchemy.url", cmd_opts.pg_url)
     return config
 
-
+# Предоставляем объект alembic.ini
 def alembic_config_from_url(pg_url: Optional[str] = None) -> AlembicConfig:
     cmd_options = Namespace(
         config="alembic.ini",
@@ -48,7 +48,7 @@ def alembic_config_from_url(pg_url: Optional[str] = None) -> AlembicConfig:
     )
     return make_alembic_config(cmd_opts=cmd_options)
 
-
+# Контекстный менеджер
 @contextlib.asynccontextmanager
 async def tmp_database(db_url: URL, suffix: str = "", **kwargs) -> AsyncIterator[str]:
     tmp_db_name = ".".join([uuid.uuid4().hex, "tests-base", suffix])
@@ -59,7 +59,7 @@ async def tmp_database(db_url: URL, suffix: str = "", **kwargs) -> AsyncIterator
     finally:
         await drop_database_async(tmp_db_url)
 
-
+# Создаем базу данных
 async def create_database_async(
     url: str, encoding: str = "utf8", template: Optional[str] = None
 ) -> None:
@@ -115,7 +115,7 @@ async def create_database_async(
 
     await engine.dispose()
 
-
+# Удаляем базу данных
 async def drop_database_async(url: str) -> None:
     url = make_url(url)
     database = url.database
@@ -158,7 +158,7 @@ async def drop_database_async(url: str) -> None:
             """
             await conn.execute(sa.text(text))
 
-            # Drop the database.
+            # Удаляем базу данных
             text = f"DROP DATABASE {quote(conn, database)}"
             await conn.execute(sa.text(text))
     else:

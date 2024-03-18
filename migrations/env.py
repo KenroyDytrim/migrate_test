@@ -31,7 +31,7 @@ target_metadata = Base.metadata
 
 ctx_var: ContextVar[dict[str, Any]] = ContextVar("ctx_var")
 
-
+# Миграция в режиме 'Оффлайн'
 def run_migrations_offline() -> None:
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
@@ -44,7 +44,7 @@ def run_migrations_offline() -> None:
     with context.begin_transaction():
         context.run_migrations()
 
-
+# Выполнение миграции
 def do_run_migrations(connection: Connection) -> None:
     try:
         context.configure(connection=connection, target_metadata=target_metadata)
@@ -62,7 +62,7 @@ def do_run_migrations(connection: Connection) -> None:
             with context.begin_transaction():
                 context.run_migrations()
 
-
+# Асинхронная миграция
 async def run_async_migrations() -> None:
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
@@ -75,7 +75,7 @@ async def run_async_migrations() -> None:
 
     await connectable.dispose()
 
-
+# Миграция в режиме 'Онлайн'
 def run_migrations_online() -> None:
     try:
         current_loop = asyncio.get_running_loop()

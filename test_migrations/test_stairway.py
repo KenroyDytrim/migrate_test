@@ -6,7 +6,7 @@ from alembic.script import Script, ScriptDirectory
 from db_utils import alembic_config_from_url
 from config import settings
 
-
+# Получаем revision миграций
 def get_revisions():
     config = alembic_config_from_url()
 
@@ -16,7 +16,7 @@ def get_revisions():
     revisions.reverse()
     return revisions
 
-
+# Тестирование работы upgrade и downgrade
 @pytest.mark.parametrize("revision", get_revisions())
 def test_migrations_stairway(alembic_config: Config, revision: Script):
     upgrade(alembic_config, revision.revision)
