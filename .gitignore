@@ -1,0 +1,13 @@
+/.dist
+/.venv
+/models/__pycache__
+/public/__pycache__
+/requirements.txt
+/__pycache__
+/pyproject.toml
+/.vscode
+/tests/__pycache__
+/.pytest_cache
+/migrations/__pycache__
+/test_migrations/__pycache__
+/log.txt
