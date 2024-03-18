@@ -21,7 +21,6 @@ def make_alembic_config(
     cmd_opts: Namespace
 ) -> AlembicConfig:
     base_path = Path(".")
-    print(f"Паф {base_path}")
     if not Path(cmd_opts.config).is_absolute():
         cmd_opts.config = str(base_path.joinpath(cmd_opts.config).absolute())
     config = AlembicConfig(
